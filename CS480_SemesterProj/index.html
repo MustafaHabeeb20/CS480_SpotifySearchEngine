@@ -1,0 +1,1337 @@
+<!--
+CS480 project
+Your Name: Michael lemus
+Collaborators: Mustafa Habeeb
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Top Music</title>
+
+  <!-- Load style sheets -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
+
+  <link rel="stylesheet" href="mainLayout.css">
+
+  <!-- Use mobile-aware viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Load any supplemental Javascript libraries here -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.2/seedrandom.js">
+  </script>
+  <script src="MongoClient.js"></script>
+  <script src="http://localhost:<port>/socket.io/socket.io.js"></script>
+  <script>
+
+
+  // Final initialization entry point: the Javascript code inside this block
+  // runs at the end of start-up when the page has finished loading.
+
+
+  // Button Events
+  $(document).on('click', "#home-button", function (evt) {
+    // Your code here.
+    var text = "Hello! This application is for our CS480 project."; 
+    var text2 = "You are able to search for the top music based off of billboard's top charts.";
+    var toAdd = document.getElementById("mainColumn").innerHTML = "";
+    var toAdd = document.getElementById("mainColumn").innerHTML += 
+    '<h1>' + text + '</h1>' + '<h2>' + text2 + '</h2>';
+    });
+
+  $(document).on('click', "#music-button", function (evt) {
+    // Your code here.
+    var text = '<div class="dropdown">' +
+      '<button class="dropbtn">Databases</button>' +
+      '<div class="dropdown-content">' +
+      '<input class = "btn" type="button" id = "db1" value="MongoDB">' +
+      '<input class = "btn" type="button" id = "db2" value="MysqlDB">' +   
+      '<input class = "btn" type="button" id = "db3" value="PostgresDB">' +  
+      '</div>' +
+      '</div>';
+      document.getElementById("mainColumn").innerHTML = "";
+      var toAdd = document.getElementById("mainColumn").innerHTML += text;
+
+    });
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // All below is for MONGO DB
+  var DataToRetrieve = {
+    title: '',
+    artist: '',
+    sortBy: '',
+  };
+
+  function sendRequestToMongoDB() {
+    const postURL = 'http://localhost:4567/searchMongo';
+    let response = fetch(postURL, {
+      method: 'POST', // Using POST request to create a new resource in the database
+      mode: 'cors', // no-cors, cors, *same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrer: 'no-referrer', // no-referrer, *client
+      body: JSON.stringify(DataToRetrieve), // body data type must match "Content-Type" header
+
+      }).then(response => response.json())
+        .then((body) => {
+          console.log("returned");
+          document.getElementById("song-table").innerHTML =
+            '<tr>' +
+            '<td id="00">Title</td>' +
+            '<td id="01">Artist</td>' +
+            '<td id="02">Genre</td>' +
+            '<td id="03">Year</td>' +
+            '<td id="04">Beats Per Minute</td>' +
+            '<td id="05">Energy</td>' +
+            '<td id="06">Dancibility</td>' +
+            '<td id="07">Popularity</td>' +
+            '</tr>';
+          body.forEach(function (response1) {
+            document.getElementById("song-table").innerHTML +=
+              "<tr>" +
+              "<td>" + response1.title + "</td>" +
+              "<td>" + response1.artist + "</td>" +
+              "<td>" + response1.genre + "</td>" +
+              "<td>" + response1.year + "</td>" +
+              "<td>" + response1.bpm + "</td>" +
+              "<td>" + response1.nrgy + "</td>" +
+              "<td>" + response1.dnce + "</td>" +
+              "<td>" + response1.pop + "</td>" +
+              "</tr>";
+          });
+          responses = body;
+        });
+  }//end of mongo send request 
+
+  function checkInputforMongoTitle() {
+    var title = document.getElementById("search-inputMongoTitle");
+    DataToRetrieve.title = title.value;
+    DataToRetrieve.artist = '';
+    sendRequestToMongoDB();
+    console.log(title.value + DataToRetrieve.title);
+  }
+
+  function checkInputforMongoArtist() {
+    var artist = document.getElementById("search-inputMongoArtist");
+    DataToRetrieve.title = '';
+    DataToRetrieve.artist = artist.value;
+    sendRequestToMongoDB();
+    console.log(artist.value + DataToRetrieve.title);
+  }
+    
+  //sort functions 
+  $(document).on('click', "#stASC", function (evt) {
+    DataToRetrieve.sortBy = 'title:1';
+    sendRequestToMongoDB();
+  });
+
+  $(document).on('click', "#stDESC", function (evt) {
+    DataToRetrieve.sortBy = 'title:-1';
+    sendRequestToMongoDB();
+  });
+
+  $(document).on('click', "#saASC", function (evt) {
+    DataToRetrieve.sortBy = 'artist:1';
+    console.log("sorting Artists!");
+    sendRequestToMongoDB();
+  });
+
+  $(document).on('click', "#saDESC", function (evt) {
+    DataToRetrieve.sortBy = 'artist:-1';
+    console.log("sorting Artists!");
+    sendRequestToMongoDB();
+  });
+
+  $(document).on('click', "#spASC", function (evt) {
+    DataToRetrieve.sortBy = 'pop:1';
+    console.log("sorting Artists");
+    sendRequestToMongoDB();
+  });
+
+  $(document).on('click', "#spDESC", function (evt) {
+    DataToRetrieve.sortBy = 'pop:-1';
+    sendRequestToMongoDB();
+  });
+
+  $(document).on('click', "#db1", function (evt) {
+    if (document.getElementById("searchBy") != null) {
+      document.getElementById("searchBy").innerHTML = "";
+      var toAdd = document.getElementById("searchBy").innerHTML += "<div id = searchBy>" +
+        '<div class="dropdown">' +
+        '<button class="dropbtn">Search by</button>' +
+        '<div class="dropdown-content">' +
+        '<input class = "btn" type="button" id = "titleMongo" value="Title">' +          
+        '<input class = "btn" type="button" id = "artistMongo" value="Artist">' +   
+        '</div>' +
+        '</div>' +
+        '</div>';
+
+    }
+    else {
+      var toAdd = document.getElementById("mainColumn").innerHTML += "<div id = searchBy>" +
+        '<div class="dropdown">' +
+        '<button class="dropbtn">Search by</button>' +
+        '<div class="dropdown-content">' +
+        '<input class = "btn" type="button" id = "titleMongo" value="Title">' +          
+        '<input class = "btn" type="button" id = "artistMongo" value="Artist">' +          
+        '</div>' +
+        '</div>' +
+        '</div>';
+    }
+
+    if (document.getElementById("searchbox") != null) {
+      document.getElementById("searchbox").innerHTML = "";
+    }
+    document.getElementById("db1").disabled = true;
+    document.getElementById("db2").disabled = false;
+    document.getElementById("db3").disabled = false;
+    console.log("here");
+    var dataBaseToUse = "DB1";
+
+  });
+
+  $(document).on('click', "#titleMongo", function (evt) {                         //dont change id
+    if (document.getElementById("searchbox") != null) {
+      document.getElementById("searchbox").innerHTML = "";
+      console.log("here frkwjfn");
+      var text = document.getElementById("searchbox").innerHTML += "<div id=searchbox> Search for a title: <input style = \"font-size: 20px\"; type=\"text\" id=\"search-inputMongoTitle\" oninput=\"checkInputforMongoTitle()\" optional> <div id=\"myDropdown\" class=\"dropdown-content\"> <input class = \"btn\" type=\"button\" id =\"searchbytemp\"  value=\"Search by tempo\"><input class = \"btn\" type=\"button\" id =\"search\"  value=\"Search Music\"> </div></div>";
+      document.getElementById("searchbox").innerHTML += '<div class="dropdown">' +
+        '<button class="dropbtn">Sort By</button>' +
+        '<div class="dropdown-content">' +
+        '<input class = "btn" type="button" id = "stASC" value="Title ASC">' +
+        '<input class = "btn" type="button" id = "stDESC" value="Title DESC">' +
+        '<input class = "btn" type="button" id = "saASC" value="Artist ASC">' +
+        '<input class = "btn" type="button" id = "saDESC" value="Artist DESC">' +
+        '<input class = "btn" type="button" id = "spASC" value="Popularity ASC">' +
+        '<input class = "btn" type="button" id = "spDESC" value="Popularity DESC">' +
+        '</div>' +
+        '</div>';
+        document.getElementById("searchbox").innerHTML += '<table id="song-table">' +
+          '<tr>' +
+          '<td id="00">Title</td>' +
+          '<td id="01">Artist</td>' +
+          '<td id="02">Genre</td>' +
+          '<td id="03">Year</td>' +
+          '<td id="04">Beats Per Minute</td>' +
+          '<td id="05">Energy</td>' +
+          '<td id="06">Dancibility</td>' +
+          '<td id="07">Popularity</td>' +
+          '</tr>';
+      } else {
+        var toAdd = document.getElementById("mainColumn").innerHTML += "<div id=searchbox> Search for a title: <input style = \"font-size: 20px\"; type=\"text\" id=\"search-inputMongoTitle\" oninput=\"checkInputforMongoTitle()\" optional> <div id=\"myDropdown\" class=\"dropdown-content\"> <input class = \"btn\" type=\"button\" id =\"searchbytemp\"  value=\"Search by tempo\"><input class = \"btn\" type=\"button\" id =\"search\"  value=\"Search Music\"> </div></div>";
+        document.getElementById("searchbox").innerHTML += '<div class="dropdown">' +
+          '<button class="dropbtn">Sort By</button>' +
+          '<div class="dropdown-content">' +
+          '<input class = "btn" type="button" id = "stASC" value="Title ASC">' +
+          '<input class = "btn" type="button" id = "stDESC" value="Title DESC">' +
+          '<input class = "btn" type="button" id = "saASC" value="Artist ASC">' +
+          '<input class = "btn" type="button" id = "saDESC" value="Artist DESC">' +
+          '<input class = "btn" type="button" id = "spASC" value="Popularity ASC">' +
+          '<input class = "btn" type="button" id = "spDESC" value="Popularity DESC">'
+        '</div>' +
+          '</div>';
+        document.getElementById("searchbox").innerHTML += '<table id="song-table">' +
+          '<tr>' +
+          '<td id="00">Title</td>' +
+          '<td id="01">Artist</td>' +
+          '<td id="02">Genre</td>' +
+          '<td id="03">Year</td>' +
+          '<td id="04">Beats Per Minute</td>' +
+          '<td id="05">Energy</td>' +
+          '<td id="06">Dancibility</td>' +
+          '<td id="07">Popularity</td>' +
+          '</tr>';
+      }
+      document.getElementById("titleMongo").disabled = true;                          //dont change id
+      document.getElementById("artistMongo").disabled = false;                          //dont change id
+    }); //p2
+
+
+    $(document).on('click', "#artistMongo", function (evt) {                            //dont change id
+      if (document.getElementById("searchbox") != null) {
+        document.getElementById("searchbox").innerHTML = "";
+        console.log("here frkwjfn");
+        var text = document.getElementById("searchbox").innerHTML += "<div id=searchbox> Search for an artist: <input style = \"font-size: 20px\"; type=\"text\" id=\"search-inputMongoArtist\" oninput=\"checkInputforMongoArtist()\" optional> <div id=\"myDropdown\" class=\"dropdown-content\"> <input class = \"btn\" type=\"button\" id =\"searchbytemp\"  value=\"Search by tempo\"><input class = \"btn\" type=\"button\" id =\"search\"  value=\"Search Music\"> </div></div>";
+        document.getElementById("searchbox").innerHTML += '<div class="dropdown">' +
+          '<button class="dropbtn">Sort By</button>' +
+          '<div class="dropdown-content">' +
+          '<input class = "btn" type="button" id = "stASC" value="Title ASC">' +
+          '<input class = "btn" type="button" id = "stDESC" value="Title DESC">' +
+          '<input class = "btn" type="button" id = "saASC" value="Artist ASC">' +
+          '<input class = "btn" type="button" id = "saDESC" value="Artist DESC">' +
+          '<input class = "btn" type="button" id = "spASC" value="Popularity ASC">' +
+          '<input class = "btn" type="button" id = "spDESC" value="Popularity DESC">'
+        '</div>' +
+          '</div>';
+        document.getElementById("searchbox").innerHTML += '<table id="song-table">' +
+          '<tr>' +
+          '<td id="00">Title</td>' +
+          '<td id="01">Artist</td>' +
+          '<td id="02">Genre</td>' +
+          '<td id="03">Year</td>' +
+          '<td id="04">Beats Per Minute</td>' +
+          '<td id="05">Energy</td>' +
+          '<td id="06">Dancibility</td>' +
+          '<td id="07">Popularity</td>' +
+          '</tr>';
+      } else {
+        var toAdd = document.getElementById("mainColumn").innerHTML += "<div id=searchbox> Search for an artist: <input style = \"font-size: 20px\"; type=\"text\" id=\"search-inputMongoArtist\" oninput=\"checkInputforMongoArtist()\" optional> <div id=\"myDropdown\" class=\"dropdown-content\"> <input class = \"btn\" type=\"button\" id =\"searchbytemp\"  value=\"Search by tempo\"><input class = \"btn\" type=\"button\" id =\"search\"  value=\"Search Music\"> </div></div>";
+        document.getElementById("searchbox").innerHTML += '<div class="dropdown">' +
+          '<button class="dropbtn">Sort By</button>' +
+          '<div class="dropdown-content">' +
+          '<input class = "btn" type="button" id = "stASC" value="Title ASC">' +
+          '<input class = "btn" type="button" id = "stDESC" value="Title DESC">' +
+          '<input class = "btn" type="button" id = "saASC" value="Artist ASC">' +
+          '<input class = "btn" type="button" id = "saDESC" value="Artist DESC">' +
+          '<input class = "btn" type="button" id = "spASC" value="Popularity ASC">' +
+          '<input class = "btn" type="button" id = "spDESC" value="Popularity DESC">'
+        '</div>' +
+          '</div>';
+        document.getElementById("searchbox").innerHTML += '<table id="song-table">' +
+          '<tr>' +
+          '<td id="00">Title</td>' +
+          '<td id="01">Artist</td>' +
+          '<td id="02">Genre</td>' +
+          '<td id="03">Year</td>' +
+          '<td id="04">Beats Per Minute</td>' +
+          '<td id="05">Energy</td>' +
+          '<td id="06">Dancibility</td>' +
+          '<td id="07">Popularity</td>' +
+          '</tr>';
+      }
+      document.getElementById("titleMongo").disabled = false;                 //dont change id
+      document.getElementById("artistMongo").disabled = true;                 //dont change id
+    });
+
+// All above is for MONGO DB
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//________________________________________________________________________________________________________________________________________
+   
+
+    var DataToRetrieve2 = {    
+      title: "",
+      artist: "",
+      sortBy: "",
+    };
+
+    function sendRequestToMysqlDB() {
+      const postURL = 'http://localhost:4567/searchMysql';    //*********************CHANGE SEARCHMANGO TO SEARCH MYSQL AND FIND THE SQL SHIT 
+      if(DataToRetrieve2.artist != "" || DataToRetrieve2.title != ""){
+        console.log("GOT IN THRU IFF AND IS SENDING SHIT");
+        let response = fetch(postURL, {
+          method: 'POST', // Using POST request to create a new resource in the database
+          mode: 'cors', // no-cors, cors, *same-origin
+          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: 'same-origin', // include, *same-origin, omit
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          redirect: 'follow', // manual, *follow, error
+          referrer: 'no-referrer', // no-referrer, *client
+          body: JSON.stringify(DataToRetrieve2), // body data type must match "Content-Type" header
+
+        }).then(response => response.json())
+          .then((body) => {
+            console.log("returned + body" + body);
+            document.getElementById("song-table").innerHTML =      //Maybe change id???
+              // '<tr>' +
+              // '<td id="00">Title</td>' +
+              // '<td id="01">Artist</td>' +
+              // '<td id="02">Genre</td>' +
+              // '<td id="03">Year</td>' +
+              // '<td id="04">Beats Per Minute</td>' +
+              // '<td id="05">Energy</td>' +
+              // '<td id="06">Dancibility</td>' +
+              // '<td id="07">Popularity</td>' +
+              // '</tr>';
+              '<tr>' +
+              '<td id="00">Title</td>' +
+              '<td id="01">Artist</td>' +
+              '<td id="02">Year</td>' +
+              '<td id="03">Loudness</td>' +
+              '<td id="04">Energy</td>' +
+              '<td id="05">Dancibility</td>' +
+              '<td id="06">Tempo</td>' +
+              '</tr>';
+            body.results.forEach(function (response1) {
+              document.getElementById("song-table").innerHTML +=
+                "<tr>" +
+                "<td>" + response1.title + "</td>" +
+                "<td>" + response1.artists + "</td>" +
+                "<td>" + response1.year + "</td>" +
+                "<td>" + response1.loudness + "</td>" +
+                "<td>" + response1.energy + "</td>" +
+                "<td>" + response1.danceability + "</td>" +
+                "<td>" + response1.tempo + "</td>" +
+                "</tr>";
+            });
+            // responses = body;
+        
+          });
+      }//end of huge iff
+        console.log("WE MAD EIT HERE REQUEST SENT");
+    }
+
+  function checkInputforMysqlTitle() {
+    var title = document.getElementById("search-inputMongoTitle");  //change maybe
+    DataToRetrieve2.title = title.value;
+    DataToRetrieve2.artist = '';
+    sendRequestToMysqlDB();                                          //changed
+    console.log(title.value + DataToRetrieve2.title);
+  }
+
+  function checkInputforMysqlArtist() {
+    var artist = document.getElementById("search-inputMongoArtist"); //change maybe
+    DataToRetrieve2.title = "";
+    DataToRetrieve2.artist = artist.value;
+    sendRequestToMysqlDB();                                         //changed
+    console.log(artist.value + DataToRetrieve2.title);
+  }
+
+
+$(document).on('click', "#db2", function (evt) {
+      if (document.getElementById("searchBy") != null) {
+        document.getElementById("searchBy").innerHTML = "";
+        var toAdd = document.getElementById("searchBy").innerHTML += "<div id = searchBy>" +
+          '<div class="dropdown">' +
+          '<button class="dropbtn">Search by</button>' +
+          '<div class="dropdown-content">' +
+          '<input class = "btn" type="button" id = "titlemysql" value="Title">' +
+          '<input class = "btn" type="button" id = "artistmysql" value="Artist">' +
+          '</div>' +
+          '</div>' +
+          '</div>';
+
+      }
+      else {
+        var toAdd = document.getElementById("mainColumn").innerHTML += "<div id = searchBy>" +
+          '<div class="dropdown">' +
+          '<button class="dropbtn">Search by</button>' +
+          '<div class="dropdown-content">' +
+          '<input class = "btn" type="button" id = "titlemysql" value="Title">' +
+          '<input class = "btn" type="button" id = "artistmysql" value="Artist">' +
+          '</div>' +
+          '</div>' +
+          '</div>';
+      }
+
+      if (document.getElementById("searchbox") != null) {
+        document.getElementById("searchbox").innerHTML = "";
+      }
+      document.getElementById("db2").disabled = true;
+      document.getElementById("db1").disabled = false;
+      document.getElementById("db3").disabled = false;
+      console.log("here");
+      var dataBaseToUse = "DB2";
+
+    });//p1
+
+    $(document).on('click', "#titlemysql", function (evt) {                         //dont change id
+      DataToRetrieve2.sortBy = "";
+      if (document.getElementById("searchbox") != null) {
+        document.getElementById("searchbox").innerHTML = "";
+        console.log("here frkwjfn");
+        //changed line 469 to mysqltitle
+        var text = document.getElementById("searchbox").innerHTML += "<div id=searchbox> Search for a title: <input style = \"font-size: 20px\"; type=\"text\" id=\"search-inputMongoTitle\" oninput=\"checkInputforMysqlTitle()\" optional> <div id=\"myDropdown\" class=\"dropdown-content\"> <input class = \"btn\" type=\"button\" id =\"searchbytemp\"  value=\"Search by tempo\"><input class = \"btn\" type=\"button\" id =\"search\"  value=\"Search Music\"> </div></div>";
+        document.getElementById("searchbox").innerHTML += '<div class="dropdown">' +
+          '<button class="dropbtn">Sort By</button>' +
+          '<div class="dropdown-content">' +
+          '<input class = "btn" type="button" id = "stASC2" value="Title ASC">' +
+          '<input class = "btn" type="button" id = "stDESC2" value="Title DESC">' +
+          '<input class = "btn" type="button" id = "saASC2" value="Artist ASC">' +
+          '<input class = "btn" type="button" id = "saDESC2" value="Artist DESC">' +
+        '</div>' +
+          '</div>';
+        document.getElementById("searchbox").innerHTML += '<table id="song-table">' +
+          // '<tr>' +
+          // '<td id="00">Title</td>' +
+          // '<td id="01">Artist</td>' +
+          // '<td id="02">Genre</td>' +
+          // '<td id="03">Year</td>' +
+          // '<td id="04">Beats Per Minute</td>' +
+          // '<td id="05">Energy</td>' +
+          // '<td id="06">Dancibility</td>' +
+          // '<td id="07">Popularity</td>' +
+          // '</tr>';
+          '<tr>' +
+          '<td id="00">Title</td>' +
+          '<td id="01">Artist</td>' +
+          '<td id="02">Year</td>' +
+          '<td id="03">Loudness</td>' +
+          '<td id="04">Energy</td>' +
+          '<td id="05">Dancibility</td>' +
+          '<td id="06">Tempo</td>' +
+          '</tr>';
+      } else {
+        //change line 503 to mysqlartist 
+        var toAdd = document.getElementById("mainColumn").innerHTML += "<div id=searchbox> Search for a title: <input style = \"font-size: 20px\"; type=\"text\" id=\"search-inputMongoTitle\" oninput=\"checkInputforMysqlTitle()\" optional> <div id=\"myDropdown\" class=\"dropdown-content\"> <input class = \"btn\" type=\"button\" id =\"searchbytemp\"  value=\"Search by tempo\"><input class = \"btn\" type=\"button\" id =\"search\"  value=\"Search Music\"> </div></div>";
+        document.getElementById("searchbox").innerHTML += '<div class="dropdown">' +
+          '<button class="dropbtn">Sort By</button>' +
+          '<div class="dropdown-content">' +
+          '<input class = "btn" type="button" id = "stASC2" value="Title ASC">' +
+          '<input class = "btn" type="button" id = "stDESC2" value="Title DESC">' +
+          '<input class = "btn" type="button" id = "saASC2" value="Artist ASC">' +
+          '<input class = "btn" type="button" id = "saDESC2" value="Artist DESC">' +
+          // '<input class = "btn" type="button" id = "spASC" value="Popularity ASC">' + 
+          // '<input class = "btn" type="button" id = "spDESC" value="Popularity DESC">'
+        '</div>' +
+          '</div>';
+        document.getElementById("searchbox").innerHTML += '<table id="song-table">' +
+          // '<tr>' +
+          // '<td id="00">Title</td>' +
+          // '<td id="01">Artist</td>' +
+          // '<td id="02">Genre</td>' +
+          // '<td id="03">Year</td>' +
+          // '<td id="04">Beats Per Minute</td>' +
+          // '<td id="05">Energy</td>' +
+          // '<td id="06">Dancibility</td>' +
+          // '<td id="07">Popularity</td>' +
+          // '</tr>';
+          '<tr>' +
+          '<td id="00">Title</td>' +
+          '<td id="01">Artist</td>' +
+          '<td id="02">Year</td>' +
+          '<td id="03">Loudness</td>' +
+          '<td id="04">Energy</td>' +
+          '<td id="05">Dancibility</td>' +
+          '<td id="06">Tempo</td>' +
+          '</tr>';
+      }
+      document.getElementById("titlemysql").disabled = true;                          //dont change id
+      document.getElementById("artistmysql").disabled = false;                          //dont change id
+    });//p2
+
+     
+    
+    $(document).on('click', "#artistmysql", function (evt) {     //dont change id 
+          DataToRetrieve2.sortBy = "";            //set eqaul to null so shit dont get effed up ion the next search                 
+          if (document.getElementById("searchbox") != null) {
+            document.getElementById("searchbox").innerHTML = "";
+            console.log("here frkwjfn");
+            //changed line 566
+            var text = document.getElementById("searchbox").innerHTML += "<div id=searchbox> Search for an artist: <input style = \"font-size: 20px\"; type=\"text\" id=\"search-inputMongoArtist\" oninput=\"checkInputforMysqlArtist()\" optional> <div id=\"myDropdown\" class=\"dropdown-content\"> <input class = \"btn\" type=\"button\" id =\"searchbytemp\"  value=\"Search by tempo\"><input class = \"btn\" type=\"button\" id =\"search\"  value=\"Search Music\"> </div></div>";
+            document.getElementById("searchbox").innerHTML += '<div class="dropdown">' +
+              '<button class="dropbtn">Sort By</button>' +
+              '<div class="dropdown-content">' +
+              '<input class = "btn" type="button" id = "stASC2" value="Title ASC">' +
+              '<input class = "btn" type="button" id = "stDESC2" value="Title DESC">' +
+              '<input class = "btn" type="button" id = "saASC2" value="Artist ASC">' +
+              '<input class = "btn" type="button" id = "saDESC2" value="Artist DESC">' +
+          // '<input class = "btn" type="button" id = "spASC" value="Popularity ASC">' +
+          // '<input class = "btn" type="button" id = "spDESC" value="Popularity DESC">'
+            '</div>' +
+              '</div>';
+            document.getElementById("searchbox").innerHTML += '<table id="song-table">' +
+              // '<tr>' +
+              // '<td id="00">Title</td>' +
+              // '<td id="01">Artist</td>' +
+              // '<td id="02">Genre</td>' +
+              // '<td id="03">Year</td>' +
+              // '<td id="04">Beats Per Minute</td>' +
+              // '<td id="05">Energy</td>' +
+              // '<td id="06">Dancibility</td>' +
+              // '<td id="07">Popularity</td>' +
+              // '</tr>';
+              '<tr>' +
+              '<td id="00">Title</td>' +
+              '<td id="01">Artist</td>' +
+              '<td id="02">Year</td>' +
+              '<td id="03">Loudness</td>' +
+              '<td id="04">Energy</td>' +
+              '<td id="05">Dancibility</td>' +
+              '<td id="06">Tempo</td>' +
+              '</tr>';
+          } else {
+            //changed 599
+            var toAdd = document.getElementById("mainColumn").innerHTML += "<div id=searchbox> Search for an artist: <input style = \"font-size: 20px\"; type=\"text\" id=\"search-inputMongoArtist\" oninput=\"checkInputforMysqlArtist()\" optional> <div id=\"myDropdown\" class=\"dropdown-content\"> <input class = \"btn\" type=\"button\" id =\"searchbytemp\"  value=\"Search by tempo\"><input class = \"btn\" type=\"button\" id =\"search\"  value=\"Search Music\"> </div></div>";
+            document.getElementById("searchbox").innerHTML += '<div class="dropdown">' +
+              '<button class="dropbtn">Sort By</button>' +
+              '<div class="dropdown-content">' +
+               '<input class = "btn" type="button" id = "stASC2" value="Title ASC">' +
+              '<input class = "btn" type="button" id = "stDESC2" value="Title DESC">' +
+              '<input class = "btn" type="button" id = "saASC2" value="Artist ASC">' +
+              '<input class = "btn" type="button" id = "saDESC2" value="Artist DESC">' +
+          // '<input class = "btn" type="button" id = "spASC" value="Popularity ASC">' +
+          // '<input class = "btn" type="button" id = "spDESC" value="Popularity DESC">'
+            '</div>' +
+              '</div>';
+            document.getElementById("searchbox").innerHTML += '<table id="song-table">' +
+              // '<tr>' +
+              // '<td id="00">Title</td>' +
+              // '<td id="01">Artist</td>' +
+              // '<td id="02">Genre</td>' +
+              // '<td id="03">Year</td>' +
+              // '<td id="04">Beats Per Minute</td>' +
+              // '<td id="05">Energy</td>' +
+              // '<td id="06">Dancibility</td>' +
+              // '<td id="07">Popularity</td>' +
+              // '</tr>';
+              '<tr>' +
+              '<td id="00">Title</td>' +
+              '<td id="01">Artist</td>' +
+              '<td id="02">Year</td>' +
+              '<td id="03">Loudness</td>' +
+              '<td id="04">Energy</td>' +
+              '<td id="05">Dancibility</td>' +
+              '<td id="06">Tempo</td>' +
+              '</tr>';
+          }
+          document.getElementById("titlemysql").disabled = false;                 //dont change id
+          document.getElementById("artistmysql").disabled = true;                 //dont change id
+        });//p3
+
+
+
+
+
+    //sortby shiit 
+    $(document).on('click', "#stASC2", function (evt) {
+        DataToRetrieve2.sortBy = 'title ASC';
+        sendRequestToMysqlDB();
+      });
+
+    $(document).on('click', "#stDESC2", function (evt) {
+        DataToRetrieve2.sortBy = 'title DESC';
+        sendRequestToMysqlDB();
+      });
+    
+    $(document).on('click', "#saASC2", function (evt) {
+        DataToRetrieve2.sortBy = 'artists ASC';
+        sendRequestToMysqlDB();
+      });
+
+    $(document).on('click', "#saDESC2", function (evt) {
+        DataToRetrieve2.sortBy = 'artists DESC';
+        sendRequestToMysqlDB();
+      }); //p5
+  //___________________________________________________________________________________________________________________________________________________________________________________________
+
+    
+ 
+ 
+ 
+ 
+//___________________________________________________________________________________________________________________________________________________________________________________________
+//Postgres
+
+var DataToRetrieve3 = {    
+  title: "",
+  artist: "",
+  sortBy: "",
+};
+
+  function sendRequestToPostgresDB() {
+    const postURL = 'http://localhost:4567/searchPostgres';    //*********************CHANGE SEARCHmysql to search postgresss 4567 old 5432 new
+    if (DataToRetrieve3.artist != "" || DataToRetrieve3.title != "") {
+      console.log("GOT IN THRU IFF AND IS SENDING SHIT 22222222");
+      let response = fetch(postURL, {
+        method: 'POST', // Using POST request to create a new resource in the database
+        mode: 'cors', // no-cors, cors, *same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify(DataToRetrieve3), // body data type must match "Content-Type" header
+
+      }).then(response => response.json())
+        .then((body) => {
+          console.log("returned + body" + body);
+          console.log("body.results " + body.results);
+          document.getElementById("song-table").innerHTML =      //Maybe change id???
+            // '<tr>' +
+            // '<td id="00">Title</td>' +
+            // '<td id="01">Artist</td>' +
+            // '<td id="02">Genre</td>' +
+            // '<td id="03">Year</td>' +
+            // '<td id="04">Beats Per Minute</td>' +
+            // '<td id="05">Energy</td>' +
+            // '<td id="06">Dancibility</td>' +
+            // '<td id="07">Popularity</td>' +
+            // '</tr>';
+            '<tr>' +
+            '<td id="00">Title</td>' +
+            '<td id="01">Artist</td>' +
+            '<td id="02">Year</td>' +
+            '<td id="03">Loudness</td>' +
+            '<td id="04">Energy</td>' +
+            '<td id="05">Dancibility</td>' +
+            '<td id="06">Tempo</td>' +
+            '</tr>';
+          body.results.forEach(function (response1) {
+            document.getElementById("song-table").innerHTML +=
+              "<tr>" +
+              "<td>" + response1.title + "</td>" +
+              "<td>" + response1.artists + "</td>" +
+              "<td>" + response1.year + "</td>" +
+              "<td>" + response1.loudness + "</td>" +
+              "<td>" + response1.energy + "</td>" +
+              "<td>" + response1.danceability + "</td>" +
+              "<td>" + response1.tempo + "</td>" +
+              "</tr>";
+          });
+          responses = body;
+
+        });
+    }//end of huge iff
+    console.log("WE MAD EIT HERE REQUEST SENT 22222");
+  }
+    function checkInputforPostgresTitle() {
+      var title = document.getElementById("search-inputMongoTitle");  //change maybe
+      DataToRetrieve3.title = title.value;
+      DataToRetrieve3.artist = '';
+      sendRequestToPostgresDB();                                          //changed
+      console.log(title.value + DataToRetrieve3.title);
+    }
+
+    function checkInputforPostgresArtist() {
+      var artist = document.getElementById("search-inputMongoArtist"); //change maybe
+      DataToRetrieve3.title = "";
+      DataToRetrieve3.artist = artist.value;
+      sendRequestToPostgresDB();                                         //changed
+      console.log(artist.value + DataToRetrieve3.title);
+    }
+
+$(document).on('click', "#db3", function (evt) {
+      if (document.getElementById("searchBy") != null) {
+        document.getElementById("searchBy").innerHTML = "";
+        var toAdd = document.getElementById("searchBy").innerHTML += "<div id = searchBy>" +
+          '<div class="dropdown">' +
+          '<button class="dropbtn">Search by</button>' +
+          '<div class="dropdown-content">' +
+          '<input class = "btn" type="button" id = "titlepostgres" value="Title">' +
+          '<input class = "btn" type="button" id = "artistpostgres" value="Artist">' +
+          '</div>' +
+          '</div>' +
+          '</div>';
+
+      }
+      else {
+        var toAdd = document.getElementById("mainColumn").innerHTML += "<div id = searchBy>" +
+          '<div class="dropdown">' +
+          '<button class="dropbtn">Search by</button>' +
+          '<div class="dropdown-content">' +
+          '<input class = "btn" type="button" id = "titlepostgres" value="Title">' +
+          '<input class = "btn" type="button" id = "artistpostgres" value="Artist">' +
+          '</div>' +
+          '</div>' +
+          '</div>';
+      }
+
+      if (document.getElementById("searchbox") != null) {
+        document.getElementById("searchbox").innerHTML = "";
+      }
+      document.getElementById("db2").disabled = false;
+      document.getElementById("db1").disabled = false;
+      document.getElementById("db3").disabled = true;
+      console.log("here");
+      var dataBaseToUse = "DB3";
+
+    });//p1
+
+  $(document).on('click', "#titlepostgres", function (evt) {                         //dont change id
+    DataToRetrieve3.sortBy = "";
+    if (document.getElementById("searchbox") != null) {
+      document.getElementById("searchbox").innerHTML = "";
+      console.log("here frkwjfn");
+      //changed line 469 to mysqltitle                                            //Change **
+      var text = document.getElementById("searchbox").innerHTML += "<div id=searchbox> Search for a title: <input style = \"font-size: 20px\"; type=\"text\" id=\"search-inputMongoTitle\" oninput=\"checkInputforPostgresTitle()\" optional> <div id=\"myDropdown\" class=\"dropdown-content\"> <input class = \"btn\" type=\"button\" id =\"searchbytemp\"  value=\"Search by tempo\"><input class = \"btn\" type=\"button\" id =\"search\"  value=\"Search Music\"> </div></div>";
+      document.getElementById("searchbox").innerHTML += '<div class="dropdown">' +
+        '<button class="dropbtn">Sort By</button>' +
+        '<div class="dropdown-content">' +
+        '<input class = "btn" type="button" id = "stASC3" value="Title ASC">' +   //change **
+        '<input class = "btn" type="button" id = "stDESC3" value="Title DESC">' +
+        '<input class = "btn" type="button" id = "saASC3" value="Artist ASC">' +
+        '<input class = "btn" type="button" id = "saDESC3" value="Artist DESC">' +
+        '</div>' +
+        '</div>';
+      document.getElementById("searchbox").innerHTML += '<table id="song-table">' +
+        // '<tr>' +
+        // '<td id="00">Title</td>' +
+        // '<td id="01">Artist</td>' +
+        // '<td id="02">Genre</td>' +
+        // '<td id="03">Year</td>' +
+        // '<td id="04">Beats Per Minute</td>' +
+        // '<td id="05">Energy</td>' +
+        // '<td id="06">Dancibility</td>' +
+        // '<td id="07">Popularity</td>' +
+        // '</tr>';
+        '<tr>' +
+        '<td id="00">Title</td>' +
+        '<td id="01">Artist</td>' +
+        '<td id="02">Year</td>' +
+        '<td id="03">Loudness</td>' +
+        '<td id="04">Energy</td>' +
+        '<td id="05">Dancibility</td>' +
+        '<td id="06">Tempo</td>' +
+        '</tr>';
+    } else {
+      //change line 503 to mysqlartist          //Change **
+      var toAdd = document.getElementById("mainColumn").innerHTML += "<div id=searchbox> Search for a title: <input style = \"font-size: 20px\"; type=\"text\" id=\"search-inputMongoTitle\" oninput=\"checkInputforPostgresTitle()\" optional> <div id=\"myDropdown\" class=\"dropdown-content\"> <input class = \"btn\" type=\"button\" id =\"searchbytemp\"  value=\"Search by tempo\"><input class = \"btn\" type=\"button\" id =\"search\"  value=\"Search Music\"> </div></div>";
+      document.getElementById("searchbox").innerHTML += '<div class="dropdown">' +
+        '<button class="dropbtn">Sort By</button>' +
+        '<div class="dropdown-content">' +
+        '<input class = "btn" type="button" id = "stASC3" value="Title ASC">' +           //Change **
+        '<input class = "btn" type="button" id = "stDESC3" value="Title DESC">' +
+        '<input class = "btn" type="button" id = "saASC3" value="Artist ASC">' +
+        '<input class = "btn" type="button" id = "saDESC3" value="Artist DESC">' +
+        // '<input class = "btn" type="button" id = "spASC" value="Popularity ASC">' + 
+        // '<input class = "btn" type="button" id = "spDESC" value="Popularity DESC">'
+        '</div>' +
+        '</div>';
+      document.getElementById("searchbox").innerHTML += '<table id="song-table">' +
+        // '<tr>' +
+        // '<td id="00">Title</td>' +
+        // '<td id="01">Artist</td>' +
+        // '<td id="02">Genre</td>' +
+        // '<td id="03">Year</td>' +
+        // '<td id="04">Beats Per Minute</td>' +
+        // '<td id="05">Energy</td>' +
+        // '<td id="06">Dancibility</td>' +
+        // '<td id="07">Popularity</td>' +
+        // '</tr>';
+        '<tr>' +
+        '<td id="00">Title</td>' +
+        '<td id="01">Artist</td>' +
+        '<td id="02">Year</td>' +
+        '<td id="03">Loudness</td>' +
+        '<td id="04">Energy</td>' +
+        '<td id="05">Dancibility</td>' +
+        '<td id="06">Tempo</td>' +
+        '</tr>';
+    }
+    document.getElementById("titlepostgres").disabled = true;                          //dont change id
+    document.getElementById("artistpostgres").disabled = false;                          //dont change id
+  });//p2    
+
+    $(document).on('click', "#artistpostgres", function (evt) {     //dont change id 
+      DataToRetrieve3.sortBy = "";            //set eqaul to null so shit dont get effed up ion the next search                 
+      if (document.getElementById("searchbox") != null) {
+        document.getElementById("searchbox").innerHTML = "";
+        console.log("here frkwjfn");
+        //changed line 566                                //Change **
+        var text = document.getElementById("searchbox").innerHTML += "<div id=searchbox> Search for an artist: <input style = \"font-size: 20px\"; type=\"text\" id=\"search-inputMongoArtist\" oninput=\"checkInputforPostgresArtist()\" optional> <div id=\"myDropdown\" class=\"dropdown-content\"> <input class = \"btn\" type=\"button\" id =\"searchbytemp\"  value=\"Search by tempo\"><input class = \"btn\" type=\"button\" id =\"search\"  value=\"Search Music\"> </div></div>";
+        document.getElementById("searchbox").innerHTML += '<div class="dropdown">' +
+          '<button class="dropbtn">Sort By</button>' +
+          '<div class="dropdown-content">' +
+          '<input class = "btn" type="button" id = "stASC3" value="Title ASC">' +                         //Change **
+          '<input class = "btn" type="button" id = "stDESC3" value="Title DESC">' +
+          '<input class = "btn" type="button" id = "saASC3" value="Artist ASC">' +
+          '<input class = "btn" type="button" id = "saDESC3" value="Artist DESC">' +
+          // '<input class = "btn" type="button" id = "spASC" value="Popularity ASC">' +
+          // '<input class = "btn" type="button" id = "spDESC" value="Popularity DESC">'
+          '</div>' +
+          '</div>';
+        document.getElementById("searchbox").innerHTML += '<table id="song-table">' +
+          // '<tr>' +
+          // '<td id="00">Title</td>' +
+          // '<td id="01">Artist</td>' +
+          // '<td id="02">Genre</td>' +
+          // '<td id="03">Year</td>' +
+          // '<td id="04">Beats Per Minute</td>' +
+          // '<td id="05">Energy</td>' +
+          // '<td id="06">Dancibility</td>' +
+          // '<td id="07">Popularity</td>' +
+          // '</tr>';
+          '<tr>' +
+          '<td id="00">Title</td>' +
+          '<td id="01">Artist</td>' +
+          '<td id="02">Year</td>' +
+          '<td id="03">Loudness</td>' +
+          '<td id="04">Energy</td>' +
+          '<td id="05">Dancibility</td>' +
+          '<td id="06">Tempo</td>' +
+          '</tr>';
+      } else {
+        //changed 599                                   //Change **
+        var toAdd = document.getElementById("mainColumn").innerHTML += "<div id=searchbox> Search for an artist: <input style = \"font-size: 20px\"; type=\"text\" id=\"search-inputMongoArtist\" oninput=\"checkInputforPostgresArtist()\" optional> <div id=\"myDropdown\" class=\"dropdown-content\"> <input class = \"btn\" type=\"button\" id =\"searchbytemp\"  value=\"Search by tempo\"><input class = \"btn\" type=\"button\" id =\"search\"  value=\"Search Music\"> </div></div>";
+        document.getElementById("searchbox").innerHTML += '<div class="dropdown">' +
+          '<button class="dropbtn">Sort By</button>' +
+          '<div class="dropdown-content">' +
+          '<input class = "btn" type="button" id = "stASC3" value="Title ASC">' +                     //Change **
+          '<input class = "btn" type="button" id = "stDESC3" value="Title DESC">' +
+          '<input class = "btn" type="button" id = "saASC3" value="Artist ASC">' +
+          '<input class = "btn" type="button" id = "saDESC3" value="Artist DESC">' +
+          // '<input class = "btn" type="button" id = "spASC" value="Popularity ASC">' +
+          // '<input class = "btn" type="button" id = "spDESC" value="Popularity DESC">'
+          '</div>' +
+          '</div>';
+        document.getElementById("searchbox").innerHTML += '<table id="song-table">' +
+          // '<tr>' +
+          // '<td id="00">Title</td>' +
+          // '<td id="01">Artist</td>' +
+          // '<td id="02">Genre</td>' +
+          // '<td id="03">Year</td>' +
+          // '<td id="04">Beats Per Minute</td>' +
+          // '<td id="05">Energy</td>' +
+          // '<td id="06">Dancibility</td>' +
+          // '<td id="07">Popularity</td>' +
+          // '</tr>';
+          '<tr>' +
+          '<td id="00">Title</td>' +
+          '<td id="01">Artist</td>' +
+          '<td id="02">Year</td>' +
+          '<td id="03">Loudness</td>' +
+          '<td id="04">Energy</td>' +
+          '<td id="05">Dancibility</td>' +
+          '<td id="06">Tempo</td>' +
+          '</tr>';
+      }
+      document.getElementById("titlepostgres").disabled = false;                 //dont change id
+      document.getElementById("artistpostgres").disabled = true;                 //dont change id
+    });//p3
+
+     //sortby shiit 
+      $(document).on('click', "#stASC3", function (evt) {
+        DataToRetrieve3.sortBy = 'title ASC';
+        sendRequestToPostgresDB();
+      });
+
+      $(document).on('click', "#stDESC3", function (evt) {
+        DataToRetrieve3.sortBy = 'title DESC';
+        sendRequestToPostgresDB();
+      });
+
+      $(document).on('click', "#saASC3", function (evt) {
+        DataToRetrieve3.sortBy = 'artists ASC';
+        sendRequestToPostgresDB();
+      });
+
+      $(document).on('click', "#saDESC3", function (evt) {
+        DataToRetrieve3.sortBy = 'artists DESC';
+        sendRequestToPostgresDB();
+      }); //p5
+  
+ // ___________________________________________________________________________________________________________________________________________________________________________________________
+    var login = {
+      username: '',
+      userId: '',
+      loggedin: false,
+    };
+
+    var songToAdd = {
+      username: '',
+      userId: '',
+      title: '',
+      artist: '',
+      genre: '',
+      sortBy: ''
+    }
+
+    $(document).on('click', "#titlePlayA", function (evt) {
+      songToAdd.sortBy = 'title ASC';
+      fillInPlayTable();
+    });
+
+    $(document).on('click', "#titlePlayD", function (evt) {
+      songToAdd.sortBy = 'title DESC';
+      fillInPlayTable();
+    });
+
+    $(document).on('click', "#artistPlayA", function (evt) {
+      songToAdd.sortBy = 'artist ASC';
+      console.log("sorting Artists!");
+      fillInPlayTable();
+    });
+
+    $(document).on('click', "#artistPlayD", function (evt) {
+      songToAdd.sortBy = 'artist DESC';
+      console.log("sorting Artists!");
+      fillInPlayTable();
+    });
+
+    $(document).on('click', "#genrePlayA", function (evt) {
+      songToAdd.sortBy = 'genre ASC';
+      console.log("sorting Artists");
+      fillInPlayTable();
+    });
+
+    $(document).on('click', "#genrePlayD", function (evt) {
+      songToAdd.sortBy = 'genre DESC';
+      fillInPlayTable();
+    });
+
+    function fillInPlayTable() {
+      const postURL = 'http://localhost:4567/getPlayTable';
+      let response = fetch(postURL, {
+        method: 'POST', // Using POST request to create a new resource in the database
+        mode: 'cors', // no-cors, cors, *same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify(songToAdd), // body data type must match "Content-Type" header
+
+      }).then(response => response.json())
+        .then((body) => {
+          console.log(body);
+          document.getElementById("play-table").innerHTML =
+            '<tr>' +
+            '<td id="00">Title</td>' +
+            '<td id="01">Artist</td>' +
+            '<td id="02">Genre</td>' +
+            '</tr>';
+          body.result.forEach(function (response1) {
+
+            document.getElementById("play-table").innerHTML +=
+              "<tr>" +
+              "<td>" + response1.title + "</td>" +
+              "<td>" + response1.artist + "</td>" +
+              "<td>" + response1.genre + "</td>" +
+              "</tr>";
+          });
+
+        });
+
+    }
+
+    $(document).on('click', "#add-button", function (evt) {
+      songToAdd.userId = login.userId;
+      songToAdd.title = document.getElementById("titleToAdd").value;
+      songToAdd.genre = document.getElementById("genreToAdd").value;
+      songToAdd.artist = document.getElementById("artistToAdd").value;
+      if (songToAdd.title == '' || songToAdd.artist == '') {
+        document.getElementById("messagePlay").innerHTML = "Title and artist are required!";
+        document.getElementById("add-button").style.marginRight = "45px";
+        document.getElementById("messagePlay").style.marginRight = "220px";
+        return;
+      }
+      else {
+
+        document.getElementById("messagePlay").innerHTML = "";
+        document.getElementById("add-button").style.marginRight = "245px";
+        document.getElementById("messagePlay").style.marginRight = "220px";
+      }
+      const postURL = 'http://localhost:4567/addToPlaylist';
+      let response = fetch(postURL, {
+        method: 'POST', // Using POST request to create a new resource in the database
+        mode: 'cors', // no-cors, cors, *same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify(songToAdd), // body data type must match "Content-Type" header
+
+      }).then(response => response.json())
+        .then((body) => {
+          console.log(body);
+          if (body.code == 400) {
+            console.log("here");
+            console.log(body.failed);
+            document.getElementById("messagePlay").innerHTML = body.failed;
+            document.getElementById("add-button").style.marginRight = "45px";
+            document.getElementById("messagePlay").style.marginRight = "270px";
+
+          }
+          else {
+
+            document.getElementById("messagePlay").innerHTML = "";
+            document.getElementById("add-button").style.marginRight = "245px";
+            document.getElementById("messagePlay").style.marginRight = "220px";
+          }
+        });
+      fillInPlayTable();
+    });
+
+    var requestLogin = {
+      username: '',
+      password: '',
+    };
+
+
+    function sendLoginRequestToMySQL() {
+      const postURL = 'http://localhost:4567/loginMySql';
+      let response = fetch(postURL, {
+        method: 'POST', // Using POST request to create a new resource in the database
+        mode: 'cors', // no-cors, cors, *same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify(requestLogin), // body data type must match "Content-Type" header
+
+      }).then(response => response.json())
+        .then((body) => {
+          console.log("returned");
+          console.log(body);
+          console.log("returned");
+          console.log(body);
+          if (body.code == 200) {
+            login.loggedin = true;
+            login.userId = body.userid;
+            login.username = body.username;
+            requestNewUser.username = body.username;
+            songToAdd.userId = login.userId;
+            console.log("Userid is" + login.userId);
+            document.getElementById("mainColumn").innerHTML = "";
+            document.getElementById("mainColumn").innerHTML += "<div id =helloUser> Hello " + login.username + "!</div>" +
+              '<div class = "col">' +
+              '<div> Add a Song to your playlist? Need to fill in Title and Artist, genre is optional. </div>' +
+              '<div class = row>' +
+              '<input id = titleToAdd type = "text" placeholder = Title of song>' +
+              '<input id = artistToAdd type = "text" placeholder = Artist of song>' +
+              '<input id = genreToAdd type = "text" placeholder = Genre of song>' +
+              '</div>' +
+              '<div class = row>' +
+              '<input class = "btn" type="button" id ="add-button" value="Add to playlist">' +
+              '<div id = messagePlay>            </div>' +
+              '<div class="dropdown">' +
+              '<button class="dropbtn">Sort by</button>' +
+              '<div class="dropdown-content">' +
+              '<input class = "btn" type="button" id = "titlePlayA" value="TitleASC">' +
+              '<input class = "btn" type="button" id = "titlePlayD" value="TitleDESC">' +
+              '<input class = "btn" type="button" id = "artistPlayA" value="ArtistASC">' +
+              '<input class = "btn" type="button" id = "artistPlayD" value="ArtistDESC">' +
+              '<input class = "btn" type="button" id = "genrePlayA" value="GenreASC">' +
+              '<input class = "btn" type="button" id = "genrePlayD" value="GenreDESC">' +
+              '</div>' +
+              '</div>' +
+              '</div>' +
+              '</div>' +
+              '<div>' +
+              '<table id="play-table">' +
+              '<tr>' +
+              '<td id="00">Title</td>' +
+              '<td id="01">Artist</td>' +
+              '<td id="02">Genre</td>' +
+              '</tr>';
+            fillInPlayTable();
+
+          }
+
+          if (body.code == 204) {
+            console.log("here");
+            console.log(body.failed);
+            document.getElementById("message").innerHTML = "Email and password do not match!"
+          }
+          if (body.code == 206) {
+            console.log("here");
+            console.log(body.failed);
+            document.getElementById("message").innerHTML = "Username does not Exist!"
+          }
+
+        });
+    }
+
+    var requestNewUser = {
+      username: '',
+      password: '',
+    };
+
+    function sendNewUserRequestToMySQL() {
+      console.log("trying to create! " + requestNewUser.username + requestNewUser.password);
+      const postURL = 'http://localhost:4567/registerNewMySql';
+      let response = fetch(postURL, {
+        method: 'POST', // Using POST request to create a new resource in the database
+        mode: 'cors', // no-cors, cors, *same-origin
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        redirect: 'follow', // manual, *follow, error
+        referrer: 'no-referrer', // no-referrer, *client
+        body: JSON.stringify(requestNewUser), // body data type must match "Content-Type" header
+
+      }).then(response => response.json())
+        .then((body) => {
+          console.log("returned");
+          console.log(body);
+          if (body.code == 200) {
+            login.loggedin = true;
+            login.userId = body.userid;
+            login.username = requestNewUser.username;
+            console.log("Userid is" + login.userId);
+            document.getElementById("mainColumn").innerHTML = "";
+            document.getElementById("mainColumn").innerHTML += "<div id =helloUser> Hello " + requestNewUser.username + "!</div>" +
+              '<div class = "col">' +
+              '<div> Add a Song to your playlist? Need to fill in Title and Artist, genre is optional. </div>' +
+              '<div class = row>' +
+              '<input id = titleToAdd type = "text" placeholder = Title of song>' +
+              '<input id = artistToAdd type = "text" placeholder = Artist of song>' +
+              '<input id = genreToAdd type = "text" placeholder = Genre of song>' +
+              '</div>' +
+              '<div class = row>' +
+              '<input class = "btn" type="button" id ="add-button" value="Add to playlist">' +
+              '<div id = messagePlay>               </div>' +
+              '<div class="dropdown">' +
+              '<button class="dropbtn">Sort by</button>' +
+              '<div class="dropdown-content">' +
+              '<input class = "btn" type="button" id = "titlePlayA" value="TitleASC">' +
+              '<input class = "btn" type="button" id = "titlePlayD" value="TitleDESC">' +
+              '<input class = "btn" type="button" id = "artistPlayA" value="ArtistASC">' +
+              '<input class = "btn" type="button" id = "artistPlayD" value="ArtistDESC">' +
+              '<input class = "btn" type="button" id = "genrePlayA" value="GenreASC">' +
+              '<input class = "btn" type="button" id = "genrePlayD" value="GenreDESC">' +
+              '</div>' +
+              '</div>' +
+              '</div>' +
+              '</div>' +
+              '<div>' +
+              '<table id="play-table">' +
+              '<tr>' +
+              '<td id="00">Title</td>' +
+              '<td id="01">Artist</td>' +
+              '<td id="02">Genre</td>' +
+              '</tr>';
+
+          }
+
+          if (body.code == 400) {
+            console.log("here");
+            console.log(body.failed);
+            document.getElementById("message").innerHTML = "User Name Already Exists!"
+          }
+        });
+    }
+
+    $(document).on('click', "#favMusic-button", function (evt) {
+      if (!login.loggedin) {
+        document.getElementById("mainColumn").innerHTML = "";
+        document.getElementById("mainColumn").innerHTML += "<div id =\"message\"></div>" +
+          "<div id = loginSection>" +
+          "<div class=\"col\">" +
+          "<input id = \"userNameIn\" type=\"text\" name=\"username\" placeholder=\"Username\" required>" +
+          "<input id = \"passIn\" type=\"password\" name=\"password\" placeholder=\"Password\" required>" +
+          "<input id = \"submitLogin\" class = \"btn\" value=\"Login\" type=\"button\">" +
+          "<div id = \"orSelection\"> <b  style=\"color: darkgray;\"> OR </b> </div>" +
+          "<input id = \"create\" class = \"btn\" value=\"Create User\" type=\"button\">" +
+          "</div>" +
+          '</div>';
+      }
+      else {
+        document.getElementById("mainColumn").innerHTML = "";
+        document.getElementById("mainColumn").innerHTML += "<div id =helloUser> Hello " + requestNewUser.username + "!</div>" +
+          '<div class = "col">' +
+          '<div> Add a Song to your playlist? Need to fill in Title and Artist, genre is optional.</div>' +
+          '<div class = row>' +
+          '<input id = titleToAdd type = "text" placeholder = Title of song>' +
+          '<input id = artistToAdd type = "text" placeholder = Artist of song>' +
+          '<input id = genreToAdd type = "text" placeholder = Genre of song>' +
+          '<input class = "btn" type="button" id ="add-button" value="Add to playlist">' +
+          '<div class="dropdown">' +
+          '<button class="dropbtn">Sort by</button>' +
+          '<div class="dropdown-content">' +
+          '<input class = "btn" type="button" id = "titlePlayA" value="TitleASC">' +
+          '<input class = "btn" type="button" id = "titlePlayD" value="TitleDESC">' +
+          '<input class = "btn" type="button" id = "artistPlayA" value="ArtistASC">' +
+          '<input class = "btn" type="button" id = "artistPlayD" value="ArtistDESC">' +
+          '<input class = "btn" type="button" id = "genrePlayA" value="GenreASC">' +
+          '<input class = "btn" type="button" id = "genrePlayD" value="GenreDESC">' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
+          '<div>' +
+          '<table id="play-table">' +
+          '<tr>' +
+          '<td id="00">Title</td>' +
+          '<td id="01">Artist</td>' +
+          '<td id="02">Genre</td>' +
+          '</tr>';
+        fillInPlayTable();
+      }
+
+    });
+
+
+
+    $(document).on('click', "#create", function (evt) {
+
+      document.getElementById("mainColumn").innerHTML = "";
+      document.getElementById("mainColumn").innerHTML += "<div id =\"message\"></div>" +
+        "<div id = createSection>" +
+        "<div class=\"col\">" +
+        "<input id = \"userNameC\" type=\"text\" name=\"username\" placeholder=\"Username\" required>" +
+        "<input id = \"passInC\" type=\"password\" name=\"password\" placeholder=\"Password\" required>" +
+        "<input id = \"submitCreate\" class = \"btn\" value=\"Create User\" type=\"button\">" +
+        "</div>" +
+        '</div>';
+    });
+
+    $(document).on('click', "#submitCreate", function (evt) {
+      var username = document.getElementById("userNameC");
+      var password = document.getElementById("passInC");
+      console.log(username.checkValidity() + " " + password.checkValidity());
+      if (username.checkValidity() && password.checkValidity()) {
+        console.log(username.value + " " + password.value);
+        requestNewUser.username = username.value;
+        requestNewUser.password = password.value;
+        sendNewUserRequestToMySQL();
+
+      }
+      else {
+        document.getElementById("message").innerHTML += "Please check Username or Password OR You have an account";
+      }
+    });
+
+    $(document).on('click', "#submitLogin", function (evt) {
+      var username = document.getElementById("userNameIn");
+      var password = document.getElementById("passIn");
+      console.log(username.checkValidity() + " " + password.checkValidity());
+      if (username.checkValidity() && password.checkValidity()) {
+        requestLogin.username = username.value;
+        requestLogin.password = password.value;
+        sendLoginRequestToMySQL();
+      }
+      else {
+        document.getElementById("message").innerHTML += "Please check Username or Password OR Make an account";
+      }
+    });
+  </script>
+
+
+</head>
+
+<body style="background-color:lightblue;">
+
+  <div class="container">z
+    <div class="row">
+      <div class="col-md-2" id="firstColumn">
+        <div>
+          <!-- Column 1 Code Here -->
+          <input class="btn" type="button" id="home-button" value="Home">
+          <div id="music">
+            <input class="btn" type="button" id="music-button" value="Music">
+          </div>
+          <div id="favmusic">
+            <input class="btn" type="button" id="favMusic-button" value="My &hearts; music">
+          </div>
+
+
+        </div>
+      </div>
+
+      <div class="col-md-8" id="mainColumn">
+
+        <!-- Column 2 Code Here -->
+        <h1>
+        Hello! This application is for our CS480 project. 
+        </h1>
+        <h2>
+           You are able to search for the top music based off of billboard's top charts.
+        </h2>
+      </div>
+    </div> <!-- class="row" -->
+  </div> <!-- class="container" -->
+
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+id,title,artists,year ,loudness,energy,danceability,tempo
+1,Shape of You,Ed Sheeran,2017,-3.183,0.652,0.825,95.977
+2,Despacito - Remix,Luis Fonsi,2017,-4.328,0.815,0.694,88.931
+3,Despacito (Featuring Daddy Yankee),Luis Fonsi,2017,-4.757,0.786,0.66,177.833
+4,Something Just Like This,The Chainsmokers,2017,-6.769,0.635,0.617,103.019
+5,I'm the One,DJ Khaled,2017,-4.284,0.668,0.609,80.924
+6,HUMBLE.,Kendrick Lamar,2017,-6.842,0.611,0.904,150.02
+7,It Ain't Me (with Selena Gomez),Kygo,2017,-6.596,0.533,0.64,99.968
+8,Unforgettable,French Montana,2017,-5.043,0.769,0.726,97.985
+9,That's What I Like,Bruno Mars,2017,-4.961,0.56,0.853,134.066
+10,"I Don’t Wanna Live Forever (Fifty Shades Darker) - From ""Fifty Shades Darker (Original Motion Picture Soundtrack)""",ZAYN,2017,-8.374,0.451,0.735,117.973
+11,XO TOUR Llif3,Lil Uzi Vert,2017,-6.366,0.75,0.732,155.096
+12,Paris,The Chainsmokers,2017,-6.428,0.658,0.653,99.99
+13,Stay (with Alessia Cara),Zedd,2017,-5.024,0.634,0.679,102.013
+14,Attention,Charlie Puth,2017,-4.432,0.626,0.774,100.041
+15,Mask Off,Future,2017,-8.795,0.434,0.833,150.062
+16,Congratulations,Post Malone,2017,-4.215,0.812,0.627,123.071
+17,Swalla (feat. Nicki Minaj & Ty Dolla $ign),Jason Derulo,2017,-3.862,0.817,0.696,98.064
+18,Castle on the Hill,Ed Sheeran,2017,-4.868,0.834,0.461,135.007
+19,Rockabye (feat. Sean Paul & Anne-Marie),Clean Bandit,2017,-4.068,0.763,0.72,101.965
+20,Believer,Imagine Dragons,2017,-4.305,0.787,0.779,124.982
+21,Mi Gente,J Balvin,2017,-4.915,0.677,0.543,103.809
+22,Thunder,Imagine Dragons,2017,-4.749,0.81,0.6,167.88
+23,Say You Won't Let Go,James Arthur,2017,-7.398,0.557,0.358,85.043
+24,There's Nothing Holdin' Me Back,Shawn Mendes,2017,-4.035,0.8,0.857,121.996
+25,Me Rehúso,Danny Ocean,2017,-6.327,0.804,0.744,104.823
+26,Issues,Julia Michaels,2017,-6.864,0.427,0.706,113.804
+27,Galway Girl,Ed Sheeran,2017,-3.374,0.876,0.624,99.943
+28,Scared to Be Lonely,Martin Garrix,2017,-7.786,0.54,0.584,137.972
+29,Closer,The Chainsmokers,2017,-5.599,0.524,0.748,95.01
+30,Symphony (feat. Zara Larsson),Clean Bandit,2017,-4.581,0.629,0.707,122.863
+31,I Feel It Coming,The Weeknd,2017,-5.94,0.813,0.768,92.994
+32,Starboy,The Weeknd,2017,-7.028,0.594,0.681,186.054
+33,Wild Thoughts,DJ Khaled,2017,-3.094,0.672,0.671,97.98
+34,Slide,Calvin Harris,2017,-3.299,0.795,0.736,104.066
+35,New Rules,Dua Lipa,2017,-6.258,0.696,0.771,116.054
+36,1-800-273-8255,Logic,2017,-7.733,0.572,0.629,100.015
+37,Passionfruit,Drake,2017,-11.377,0.463,0.809,111.98
+38,rockstar,Post Malone,2017,-6.594,0.522,0.577,159.772
+39,Strip That Down,Liam Payne,2017,-5.595,0.485,0.869,106.028
+40,2U (feat. Justin Bieber),David Guetta,2017,-5.827,0.65,0.548,144.937
+41,Perfect,Ed Sheeran,2017,-6.312,0.448,0.599,95.05
+42,Call On Me - Ryan Riback Extended Remix,Starley,2017,-4.068,0.843,0.676,105.003
+43,Feels,Calvin Harris,2017,-3.105,0.745,0.893,101.018
+44,Mama,Jonas Blue,2017,-4.209,0.793,0.746,104.027
+45,Felices los 4,Maluma,2017,-4.502,0.789,0.755,93.973
+46,iSpy (feat. Lil Yachty),KYLE,2017,-6.745,0.653,0.746,75.016
+47,Location,Khalid,2017,-11.462,0.449,0.736,80.126
+48,Chantaje,Shakira,2017,-2.921,0.773,0.852,102.034
+49,Bad and Boujee (feat. Lil Uzi Vert),Migos,2017,-5.313,0.665,0.927,127.076
+50,Havana,Camila Cabello,2017,-4.323,0.517,0.768,104.992
+51,Solo Dance,Martin Jensen,2017,-2.396,0.836,0.744,114.965
+52,Fake Love,Drake,2017,-9.433,0.488,0.927,133.987
+53,Let Me Love You,DJ Snake,2017,-5.309,0.718,0.476,199.864
+54,More Than You Know,Axwell /\ Ingrosso,2017,-5.002,0.743,0.644,123.074
+55,One Dance,Drake,2017,-5.886,0.619,0.791,103.989
+56,SUBEME LA RADIO,Enrique Iglesias,2017,-3.297,0.823,0.684,91.048
+57,Pretty Girl - Cheat Codes X CADE Remix,Maggie Lindemann,2017,-4.661,0.868,0.703,121.03
+58,Sorry Not Sorry,Demi Lovato,2017,-6.923,0.633,0.704,144.021
+59,Redbone,Childish Gambino,2017,-10.401,0.359,0.743,160.083
+60,24K Magic,Bruno Mars,2017,-4.282,0.803,0.818,106.97
+61,DNA.,Kendrick Lamar,2017,-6.763,0.514,0.637,139.931
+62,El Amante,Nicky Jam,2017,-5.535,0.691,0.683,179.91
+63,You Don't Know Me - Radio Edit,Jax Jones,2017,-6.054,0.669,0.876,124.007
+64,Chained To The Rhythm,Katy Perry,2017,-5.363,0.801,0.448,189.798
+65,No Promises (feat. Demi Lovato),Cheat Codes,2017,-5.445,0.667,0.741,112.956
+66,Don't Wanna Know (feat. Kendrick Lamar),Maroon 5,2017,-6.166,0.617,0.775,100.048
+67,"How Far I'll Go - From ""Moana""",Alessia Cara,2017,-9.601,0.555,0.314,179.666
+68,Slow Hands,Niall Horan,2017,-6.678,0.418,0.734,85.909
+69,Escápate Conmigo,Wisin,2017,-3.181,0.864,0.747,92.028
+70,Bounce Back,Big Sean,2017,-5.698,0.567,0.77,81.477
+71,Sign of the Times,Harry Styles,2017,-4.63,0.595,0.516,119.972
+72,goosebumps,Travis Scott,2017,-3.37,0.728,0.841,130.049
+73,Young Dumb & Broke,Khalid,2017,-6.351,0.539,0.798,136.949
+74,There for You,Martin Garrix,2017,-7.607,0.644,0.611,105.969
+75,Cold (feat. Future),Maroon 5,2017,-6.288,0.716,0.697,99.905
+76,Silence,Marshmello,2017,-3.093,0.761,0.52,141.971
+77,Too Good At Goodbyes,Sam Smith,2017,-8.279,0.375,0.698,91.92
+78,Just Hold On,Steve Aoki,2017,-3.515,0.932,0.647,114.991
+79,Look What You Made Me Do,Taylor Swift,2017,-6.378,0.68,0.773,128.062
+80,Glorious (feat. Skylar Grey),Macklemore,2017,-5.126,0.794,0.731,139.994
+81,Starving,Hailee Steinfeld,2017,-4.2,0.626,0.721,99.914
+82,Reggaetón Lento (Bailemos),CNCO,2017,-3.073,0.838,0.761,93.974
+83,Weak,AJR,2017,-4.518,0.637,0.673,123.98
+84,Side To Side,Ariana Grande,2017,-5.883,0.738,0.648,159.145
+85,Otra Vez (feat. J Balvin),Zion & Lennox,2017,-5.429,0.772,0.832,96.016
+86,I Like Me Better,Lauv,2017,-7.621,0.505,0.752,91.97
+87,In the Name of Love,Martin Garrix,2017,-6.237,0.485,0.49,133.889
+88,Cold Water (feat. Justin Bieber & MØ),Major Lazer,2017,-5.092,0.798,0.608,92.943
+89,Malibu,Miley Cyrus,2017,-6.406,0.781,0.573,139.934
+90,All Night,The Vamps,2017,-5.098,0.809,0.544,145.017
+91,Hear Me Now,Alok,2017,-7.844,0.442,0.789,121.971
+92,Your Song,Rita Ora,2017,-4.093,0.624,0.855,117.959
+93,Ahora Dice,Chris Jeday,2017,-5.516,0.693,0.708,143.965
+94,Friends (with BloodPop®),Justin Bieber,2017,-5.35,0.739,0.744,104.99
+95,Bank Account,21 Savage,2017,-8.228,0.346,0.884,75.016
+96,Bad Things (with Camila Cabello),Machine Gun Kelly,2017,-4.761,0.69,0.675,137.817
+97,Don't Let Me Down,The Chainsmokers,2017,-5.651,0.859,0.542,159.797
+98,Body Like A Back Road,Sam Hunt,2017,-7.226,0.469,0.731,98.963
+99,Now Or Never,Halsey,2017,-4.902,0.588,0.658,110.075
+100,Dusk Till Dawn - Radio Edit,ZAYN,2017,-6.593,0.437,0.258,180.043

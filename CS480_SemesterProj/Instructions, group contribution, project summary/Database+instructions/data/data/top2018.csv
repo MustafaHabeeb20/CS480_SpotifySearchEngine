@@ -1,0 +1,101 @@
+id,title,artists,year ,loudness,energy,danceability,tempo
+1,God's Plan,Drake,2018,-9.211,0.449,0.754,77.169
+2,SAD!,XXXTENTACION,2018,-4.88,0.613,0.74,75.023
+3,rockstar (feat. 21 Savage),Post Malone,2018,-6.09,0.535,0.587,159.847
+4,Psycho (feat. Ty Dolla $ign),Post Malone,2018,-8.011,0.559,0.739,140.124
+5,In My Feelings,Drake,2018,-5.833,0.626,0.835,91.03
+6,Better Now,Post Malone,2018,-5.843,0.563,0.68,145.028
+7,I Like It,Cardi B,2018,-3.998,0.726,0.816,136.048
+8,One Kiss (with Dua Lipa),Calvin Harris,2018,-3.24,0.862,0.791,123.994
+9,IDGAF,Dua Lipa,2018,-5.975,0.544,0.836,97.028
+10,FRIENDS,Marshmello,2018,-2.384,0.88,0.626,95.079
+11,Havana,Camila Cabello,2018,-4.333,0.523,0.765,104.988
+12,Lucid Dreams,Juice WRLD,2018,-7.23,0.566,0.511,83.903
+13,Nice For What,Drake,2018,-6.474,0.909,0.586,93.394
+14,Girls Like You (feat. Cardi B),Maroon 5,2018,-6.825,0.541,0.851,124.959
+15,The Middle,Zedd,2018,-3.061,0.657,0.753,107.01
+16,All The Stars (with SZA),Kendrick Lamar,2018,-4.946,0.633,0.698,96.924
+17,no tears left to cry,Ariana Grande,2018,-5.507,0.713,0.699,121.993
+18,X,Nicky Jam,2018,-4.736,0.773,0.595,180.073
+19,Moonlight,XXXTENTACION,2018,-5.723,0.537,0.921,128.009
+20,Look Alive (feat. Drake),BlocBoy JB,2018,-7.495,0.581,0.922,140.022
+21,"These Days (feat. Jess Glynne, Macklemore & Dan Caplen)",Rudimental,2018,-4.057,0.809,0.653,92.213
+22,Te Bot? - Remix,Nio Garcia,2018,-3.445,0.675,0.903,96.507
+23,Mine,Bazzi,2018,-3.874,0.789,0.71,142.929
+24,Youngblood,5 Seconds of Summer,2018,-5.114,0.854,0.596,120.274
+25,New Rules,Dua Lipa,2018,-6.021,0.7,0.762,116.073
+26,Shape of You,Ed Sheeran,2018,-3.183,0.652,0.825,95.977
+27,Love Lies (with Normani),Khalid,2018,-5.626,0.648,0.708,143.955
+28,Meant to Be (feat. Florida Georgia Line),Bebe Rexha,2018,-6.61,0.772,0.642,153.995
+29,Jocelyn Flores,XXXTENTACION,2018,-9.144,0.391,0.872,134.021
+30,Perfect,Ed Sheeran,2018,-6.312,0.448,0.599,95.05
+31,Taste (feat. Offset),Tyga,2018,-7.442,0.559,0.884,97.994
+32,Solo (feat. Demi Lovato),Clean Bandit,2018,-4.546,0.636,0.737,105.005
+33,I Fall Apart,Post Malone,2018,-5.408,0.538,0.556,143.95
+34,Nevermind,Dennis Lloyd,2018,-8.354,0.691,0.592,99.976
+35,?chame La Culpa,Luis Fonsi,2018,-3.655,0.889,0.726,96.024
+36,Eastside (with Halsey & Khalid),benny blanco,2018,-7.648,0.68,0.56,89.391
+37,Never Be the Same,Camila Cabello,2018,-4.333,0.713,0.637,129.923
+38,Wolves,Selena Gomez,2018,-4.59,0.807,0.72,124.946
+39,changes,XXXTENTACION,2018,-10.068,0.308,0.669,64.934
+40,In My Mind,Dynoro,2018,-5.335,0.77,0.694,125.905
+41,River (feat. Ed Sheeran),Eminem,2018,-5.916,0.749,0.748,90.09
+42,Dura,Daddy Yankee,2018,-3.456,0.848,0.791,95
+43,SICKO MODE,Travis Scott,2018,-3.714,0.73,0.834,155.008
+44,Thunder,Imagine Dragons,2018,-4.833,0.822,0.605,167.997
+45,Me Niego,Reik,2018,-4.449,0.779,0.777,94.023
+46,Jackie Chan,Ti?sto,2018,-2.867,0.834,0.747,128.005
+47,Finesse (Remix) [feat. Cardi B],Bruno Mars,2018,-4.877,0.859,0.704,105.115
+48,Back To You - From 13 Reasons Why ? Season 2 Soundtrack,Selena Gomez,2018,-4.856,0.724,0.601,102.061
+49,Let You Down,NF,2018,-5.665,0.721,0.656,148.066
+50,Call Out My Name,The Weeknd,2018,-4.929,0.598,0.489,134.045
+51,Ric Flair Drip (& Metro Boomin),Offset,2018,-8.28,0.428,0.88,100.007
+52,Happier,Marshmello,2018,-2.749,0.792,0.687,100.015
+53,Too Good At Goodbyes,Sam Smith,2018,-8.279,0.375,0.698,91.92
+54,Freaky Friday (feat. Chris Brown),Lil Dicky,2018,-5.042,0.599,0.755,133.123
+55,Believer,Imagine Dragons,2018,-4.374,0.78,0.776,124.949
+56,FEFE (feat. Nicki Minaj & Murda Beatz),6ix9ine,2018,-9.127,0.387,0.931,125.978
+57,Rise,Jonas Blue,2018,-4.65,0.785,0.687,106.046
+58,Body (feat. brando),Loud Luxury,2018,-4.399,0.764,0.752,121.958
+59,XO TOUR Llif3,Lil Uzi Vert,2018,-6.366,0.75,0.732,155.096
+60,Sin Pijama,Becky G,2018,-3.695,0.745,0.791,94.014
+61,2002,Anne-Marie,2018,-2.881,0.683,0.697,96.133
+62,Nonstop,Drake,2018,-8.074,0.412,0.912,154.983
+63,Fuck Love (feat. Trippie Redd),XXXTENTACION,2018,-9.74,0.533,0.797,131.036
+64,In My Blood,Shawn Mendes,2018,-7.321,0.712,0.622,140.025
+65,Silence,Marshmello,2018,-3.093,0.761,0.52,141.971
+66,God is a woman,Ariana Grande,2018,-5.934,0.658,0.602,145.031
+67,D?jala que vuelva (feat. Manuel Turizo),Piso 21,2018,-4.323,0.788,0.681,170.019
+68,Flames,David Guetta,2018,-5.892,0.649,0.631,93.95
+69,What Lovers Do,Maroon 5,2018,-5.131,0.597,0.799,110.001
+70,"Taki Taki (with Selena Gomez, Ozuna & Cardi B)",DJ Snake,2018,-4.206,0.798,0.841,95.948
+71,"Let Me Go (with Alesso, Florida Georgia Line & watt)",Hailee Steinfeld,2018,-4.154,0.708,0.663,103.073
+72,Feel It Still,Portugal. The Man,2018,-5.115,0.795,0.801,79.028
+73,Pray For Me (with Kendrick Lamar),The Weeknd,2018,-4.979,0.677,0.735,100.584
+74,Walk It Talk It,Migos,2018,-5.456,0.628,0.909,145.905
+75,Him & I (with Halsey),G-Eazy,2018,-6.343,0.731,0.589,87.908
+76,Candy Paint,Post Malone,2018,-5.944,0.654,0.67,180.024
+77,Congratulations,Post Malone,2018,-4.183,0.804,0.63,123.146
+78,"1, 2, 3 (feat. Jason Derulo & De La Ghetto)",Sofia Reyes,2018,-3.112,0.895,0.792,94.968
+79,Criminal,Natti Natasha,2018,-3.023,0.813,0.814,79.997
+80,Plug Walk,Rich The Kid,2018,-6.531,0.519,0.876,94.981
+81,lovely (with Khalid),Billie Eilish,2018,-10.109,0.296,0.351,115.284
+82,Stir Fry,Migos,2018,-5.474,0.816,0.815,181.967
+83,HUMBLE.,Kendrick Lamar,2018,-6.638,0.621,0.908,150.011
+84,Vaina Loca,Ozuna,2018,-4.249,0.805,0.754,93.983
+85,Perfect Duet (Ed Sheeran & Beyonc?),Ed Sheeran,2018,-7.365,0.299,0.587,94.992
+86,Coraz?n (feat. Nego do Borel),Maluma,2018,-6.073,0.738,0.722,198.075
+87,Young Dumb & Broke,Khalid,2018,-6.351,0.539,0.798,136.949
+88,S?guelo Bailando,Ozuna,2018,-7.11,0.664,0.855,98.015
+89,Downtown,Anitta,2018,-4.985,0.679,0.775,166.008
+90,Bella,Wolfine,2018,-6.688,0.493,0.909,94.016
+91,Promises (with Sam Smith),Calvin Harris,2018,-5.991,0.768,0.781,123.07
+92,Yes Indeed,Lil Baby,2018,-9.309,0.346,0.964,119.958
+93,I Like Me Better,Lauv,2018,-7.621,0.505,0.752,91.97
+94,This Is Me,Keala Settle,2018,-7.276,0.704,0.284,191.702
+95,Everybody Dies In Their Nightmares,XXXTENTACION,2018,-7.066,0.57,0.734,129.953
+96,Rewrite The Stars,Zac Efron,2018,-7.005,0.619,0.684,125.046
+97,I Miss You (feat. Julia Michaels),Clean Bandit,2018,-6.318,0.658,0.638,105.076
+98,No Brainer,DJ Khaled,2018,-4.706,0.76,0.552,135.702
+99,Dusk Till Dawn - Radio Edit,ZAYN,2018,-6.593,0.437,0.258,180.043
+100,Be Alright,Dean Lewis,2018,-6.319,0.586,0.553,126.684
